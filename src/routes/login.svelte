@@ -27,7 +27,7 @@
 	}
 </script>
 
-<div class="container">
+<div>
 	<h1>Login with Google</h1>
 	<img
 		on:click={loginWithGoogle}

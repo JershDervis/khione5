@@ -12,11 +12,13 @@
 </script>
 
 <script lang="ts">
+	import { svg_element } from 'svelte/internal';
+
 	import { page } from '$app/stores';
 	import authStore from '../stores/authStore';
 	import Image from '$lib/Image.svelte';
 
-	import UserIcon from '$static/icons/user.svelte';
+	import UserIcon from '$static/icons/user.svg';
 	import HomeIcon from '$static/icons/home.svelte';
 
 	// The currently navigated page
@@ -64,7 +66,12 @@
 			{@const photoURL = $authStore.user?.photoURL}
 			<div class="flex items-center px-4 -mx-2">
 				{#if photoURL}
-					<Image class="object-cover mx-2 rounded-full h-9 w-9" src={photoURL} alt="avatar" />
+					<Image
+						class="object-cover mx-2 rounded-full h-9 w-9"
+						src={photoURL}
+						failedSrc="../static/icons/user.svg"
+						alt="avatar"
+					/>
 				{/if}
 				<h4 class="mx-2 font-medium text-gray-800 dark:text-gray-200 hover:underline">
 					{$authStore.user?.displayName}

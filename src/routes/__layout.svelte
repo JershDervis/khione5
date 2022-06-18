@@ -9,7 +9,9 @@
 	});
 </script>
 
-<div class="container">
+<div class="container flex columns-2">
 	<Navbar />
-	<slot />
+	<div class="container m-4">
+		<slot />
+	</div>
 </div>
