@@ -13,7 +13,9 @@
       "$lib":["src/lib"],
       "$lib/*":["src/lib/*"],
       "$static":["static"],
-      "$static/*":["static/*"]
+      "$static/*":["static/*"],
+      "$stores":["stores"],
+      "$stores/*":["stores/*"]
     }
 	}
 }

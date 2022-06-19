@@ -1,9 +1,7 @@
 <script context="module" lang="ts">
-	import type { SvelteComponent } from 'svelte';
-
 	type NavItem = {
 		label: string;
-		icon?: any;
+		icon?: any; //TODO: CHANGE TYPE
 		href: string;
 		breakBefore?: boolean;
 		breakAfter?: boolean;
@@ -12,21 +10,19 @@
 </script>
 
 <script lang="ts">
-	import { svg_element } from 'svelte/internal';
-
 	import { page } from '$app/stores';
 	import authStore from '../stores/authStore';
 	import Image from '$lib/Image.svelte';
 
-	import UserIcon from '$static/icons/user.svg';
 	import HomeIcon from '$static/icons/home.svelte';
+	import BookingsIcon from '$static/icons/bookings.svelte';
 
 	// The currently navigated page
 	$: curPath = $page.url.pathname;
 
 	const navItems: NavItem[] = [
 		{ label: 'Home', icon: HomeIcon, href: '/' },
-		{ label: 'About', href: '/about' }
+		{ label: 'My Bookings', icon: BookingsIcon, href: '/bookings' }
 	];
 </script>
 

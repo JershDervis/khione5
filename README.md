@@ -13,4 +13,4 @@ Everything to be able to take online bookings for customers.
   - Cancel bookings
   - Contact the host/guest messaging
     - [ ] Implement Twilio
-- [ ] Implement a Payment System
+- [ ] Implement a Payment System (Stripe)
