@@ -15,7 +15,9 @@
       "$static":["static"],
       "$static/*":["static/*"],
       "$stores":["stores"],
-      "$stores/*":["stores/*"]
+      "$stores/*":["stores/*"],
+      "$components":["components"],
+      "$components/*":["components/*"]
     }
 	}
 }

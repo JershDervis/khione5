@@ -1,7 +1,8 @@
 <script context="module" lang="ts">
 	import { initializeApp, getApps } from 'firebase/app';
 	import { getAuth, onAuthStateChanged } from 'firebase/auth';
-	import { getFirestore } from 'firebase/firestore';
+	import { getFirestore, collection, addDoc } from 'firebase/firestore';
+	import { initializeAppCheck, ReCaptchaV3Provider } from 'firebase/app-check';
 	import authStore from '../stores/authStore';
 
 	/**
@@ -19,8 +20,19 @@
 				measurementId: import.meta.env.VITE_PUBLIC_FIREBASE_MEASUREMENT_ID
 			});
 
+			// Initialize App Check
+			const appCheck = initializeAppCheck(app, {
+				provider: new ReCaptchaV3Provider(import.meta.env.VITE_PUBLIC_RECAPTCHA_PUBLIC_KEY),
+				isTokenAutoRefreshEnabled: true
+			});
+
 			// Initialize Authentication
 			const auth = getAuth(app);
+
+			// Initialize Firestore
+			const db = getFirestore(app);
+
+			// Listen for user auth state change
 			onAuthStateChanged(auth, (user) => {
 				authStore.set({
 					isLoggedIn: user !== null,
@@ -28,9 +40,17 @@
 					firebaseControlled: true
 				});
 			});
+		}
+	}
 
-			// Initialize Database
-			const db = getFirestore(app);
+	/**
+	 * Logout the user from the Firebase app
+	 */
+	export async function logout() {
+		try {
+			await getAuth().signOut();
+		} catch (e) {
+			console.log(e);
 		}
 	}
 </script>
