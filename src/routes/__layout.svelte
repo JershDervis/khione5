@@ -9,11 +9,11 @@
 	});
 </script>
 
-<div class="container flex columns-2">
+<div class="flex columns-2">
 	<div>
 		<Navbar />
 	</div>
-	<div class="container m-4">
+	<div class="w-full m-4">
 		<slot />
 	</div>
 </div>

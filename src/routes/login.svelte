@@ -1,39 +1,28 @@
 <script lang="ts">
-	import { getAuth, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
+	import { onMount } from 'svelte';
+	import { getAuth } from 'firebase/auth';
+	import { GoogleAuthProvider, FacebookAuthProvider } from 'firebase/auth';
+	import authStore from '../stores/authStore';
+	import 'firebaseui/dist/firebaseui.css';
 
-	enum GoogleImage {
-		DARK_NORMAL = 'btn_google_signin_dark_normal_web.png',
-		DARK_HOVER = 'btn_google_signin_dark_focus_web.png',
-		DARK_CLICKED = 'btn_google_signin_dark_pressed_web.png'
-	}
+	const contentID: string = 'auth-container';
 
-	let signInImageSrc = `/google_signin_buttons/web/1x/${GoogleImage.DARK_NORMAL}`;
-
-	async function loginWithGoogle() {
-		setImage(GoogleImage.DARK_CLICKED);
-		try {
-			await signInWithPopup(getAuth(), new GoogleAuthProvider());
-		} catch (e) {
-			console.log(e);
+	onMount(async () => {
+		if (!$authStore.isLoggedIn) {
+			const firebaseui = await import('firebaseui');
+			const ui = new firebaseui.auth.AuthUI(getAuth());
+			ui.start(`#${contentID}`, {
+				signInSuccessUrl: '/profile',
+				signInOptions: [
+					// Leave the lines as is for the providers you want to offer your users.
+					GoogleAuthProvider.PROVIDER_ID,
+					FacebookAuthProvider.PROVIDER_ID
+				]
+			});
 		}
-	}
-
-	/**
-	 * Updates the Image src attribute
-	 * @param img
-	 */
-	function setImage(img: GoogleImage) {
-		signInImageSrc = signInImageSrc.substring(0, signInImageSrc.lastIndexOf('/') + 1) + img;
-	}
+	});
 </script>
 
-<div>
-	<h1>Login with Google</h1>
-	<img
-		on:click={loginWithGoogle}
-		on:mouseenter={() => setImage(GoogleImage.DARK_HOVER)}
-		on:mouseleave={() => setImage(GoogleImage.DARK_NORMAL)}
-		src={signInImageSrc}
-		alt="Sign in with Google"
-	/>
-</div>
+{#if !$authStore.isLoggedIn}
+	<div id={contentID} />
+{/if}
