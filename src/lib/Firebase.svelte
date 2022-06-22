@@ -1,7 +1,7 @@
 <script context="module" lang="ts">
 	import { initializeApp, getApps } from 'firebase/app';
 	import { getAuth, onAuthStateChanged, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
-	import { getFirestore, collection, addDoc } from 'firebase/firestore';
+	import { getFirestore } from 'firebase/firestore';
 	import { initializeAppCheck, ReCaptchaV3Provider } from 'firebase/app-check';
 	import authStore from '../stores/authStore';
 
