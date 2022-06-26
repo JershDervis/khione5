@@ -1,8 +1,8 @@
 <script context="module" lang="ts">
-	import { initializeApp, getApps } from 'firebase/app';
-	import { getAuth, onAuthStateChanged, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
-	import { getFirestore } from 'firebase/firestore';
-	import { initializeAppCheck, ReCaptchaV3Provider } from 'firebase/app-check';
+	import { initializeApp, getApps, type FirebaseApp, getApp } from 'firebase/app';
+	import { getAuth, onAuthStateChanged, type Auth, type UserInfo } from 'firebase/auth';
+	import { getFirestore, doc, getDoc, setDoc, Firestore, Timestamp } from 'firebase/firestore';
+	import { initializeAppCheck, ReCaptchaV3Provider, type AppCheck } from 'firebase/app-check';
 	import authStore from '../stores/authStore';
 
 	/**
@@ -10,7 +10,7 @@
 	 */
 	export function initFirebase() {
 		if (!getApps().length) {
-			const app = initializeApp({
+			const app: FirebaseApp = initializeApp({
 				apiKey: import.meta.env.VITE_PUBLIC_FIREBASE_API_KEY,
 				authDomain: import.meta.env.VITE_PUBLIC_FIREBASE_AUTH_DOMAIN,
 				projectId: import.meta.env.VITE_PUBLIC_FIREBASE_PROJECT_ID,
@@ -21,22 +21,40 @@
 			});
 
 			// Initialize App Check
-			const appCheck = initializeAppCheck(app, {
+			const appCheck: AppCheck = initializeAppCheck(app, {
 				provider: new ReCaptchaV3Provider(import.meta.env.VITE_PUBLIC_RECAPTCHA_PUBLIC_KEY),
 				isTokenAutoRefreshEnabled: true
 			});
 
 			// Initialize Authentication
-			const auth = getAuth(app);
+			const auth: Auth = getAuth(app);
 
 			// Initialize Firestore
-			const db = getFirestore(app);
+			const db: Firestore = getFirestore(app);
 
 			// Listen for user auth state change
-			onAuthStateChanged(auth, (user) => {
+			onAuthStateChanged(auth, async (user: UserInfo | null) => {
+				const loggedIn = user !== null;
+				const userRef = loggedIn ? doc(db, 'users', user?.uid as string) : null;
+				let isFirstLogin = false;
+				if (loggedIn && userRef) {
+					try {
+						const userDoc = await getDoc(userRef);
+						isFirstLogin = !userDoc.exists();
+						if (isFirstLogin) {
+							await setDoc(userRef, {
+								registrationDate: Timestamp.fromDate(new Date())
+							});
+						}
+					} catch (e) {
+						console.log(e);
+					}
+				}
 				authStore.set({
-					isLoggedIn: user !== null,
+					isLoggedIn: loggedIn,
+					isFirstLogin: isFirstLogin,
 					user: user,
+					userRef: userRef,
 					firebaseControlled: true
 				});
 			});
