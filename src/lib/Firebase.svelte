@@ -1,8 +1,15 @@
 <script context="module" lang="ts">
-	import { initializeApp, getApps, type FirebaseApp, getApp } from 'firebase/app';
-	import { getAuth, onAuthStateChanged, type Auth, type UserInfo } from 'firebase/auth';
-	import { getFirestore, doc, getDoc, setDoc, Firestore, Timestamp } from 'firebase/firestore';
+	import { initializeApp, getApps, type FirebaseApp } from 'firebase/app';
 	import { initializeAppCheck, ReCaptchaV3Provider, type AppCheck } from 'firebase/app-check';
+	import { getAuth, onAuthStateChanged, type Auth, type UserInfo } from 'firebase/auth';
+	import {
+		initializeFirestore,
+		doc,
+		getDoc,
+		setDoc,
+		Firestore,
+		Timestamp
+	} from 'firebase/firestore';
 	import authStore from '../stores/authStore';
 
 	/**
@@ -30,7 +37,9 @@
 			const auth: Auth = getAuth(app);
 
 			// Initialize Firestore
-			const db: Firestore = getFirestore(app);
+			const db: Firestore = initializeFirestore(app, {
+				experimentalForceLongPolling: true
+			});
 
 			// Listen for user auth state change
 			onAuthStateChanged(auth, async (user: UserInfo | null) => {
