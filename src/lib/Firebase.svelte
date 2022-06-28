@@ -2,14 +2,7 @@
 	import { initializeApp, getApps, type FirebaseApp } from 'firebase/app';
 	import { initializeAppCheck, ReCaptchaV3Provider, type AppCheck } from 'firebase/app-check';
 	import { getAuth, onAuthStateChanged, type Auth, type UserInfo } from 'firebase/auth';
-	import {
-		initializeFirestore,
-		doc,
-		getDoc,
-		setDoc,
-		Firestore,
-		Timestamp
-	} from 'firebase/firestore';
+	import { getFirestore, doc, getDoc, setDoc, Firestore, Timestamp } from 'firebase/firestore';
 	import authStore from '../stores/authStore';
 
 	/**
@@ -27,7 +20,7 @@
 				measurementId: import.meta.env.VITE_PUBLIC_FIREBASE_MEASUREMENT_ID
 			});
 
-			// Initialize App Check
+			// Initialize AppCheck
 			const appCheck: AppCheck = initializeAppCheck(app, {
 				provider: new ReCaptchaV3Provider(import.meta.env.VITE_PUBLIC_RECAPTCHA_PUBLIC_KEY),
 				isTokenAutoRefreshEnabled: true
@@ -37,9 +30,7 @@
 			const auth: Auth = getAuth(app);
 
 			// Initialize Firestore
-			const db: Firestore = initializeFirestore(app, {
-				experimentalForceLongPolling: true
-			});
+			const db: Firestore = getFirestore(app);
 
 			// Listen for user auth state change
 			onAuthStateChanged(auth, async (user: UserInfo | null) => {
