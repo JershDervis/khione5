@@ -1,13 +1,7 @@
 <script context="module" lang="ts">
-	import { initializeApp, getApps, type FirebaseApp, FirebaseError } from 'firebase/app';
+	import { initializeApp, getApps, type FirebaseApp } from 'firebase/app';
 	import { getAnalytics, type Analytics } from 'firebase/analytics';
-	import {
-		getToken,
-		initializeAppCheck,
-		ReCaptchaV3Provider,
-		type AppCheck,
-		type AppCheckTokenResult
-	} from 'firebase/app-check';
+	import { initializeAppCheck, ReCaptchaV3Provider, type AppCheck } from 'firebase/app-check';
 	import { getAuth, onAuthStateChanged, type Auth, type UserInfo } from 'firebase/auth';
 	import { getFirestore, doc, getDoc, setDoc, Firestore, Timestamp } from 'firebase/firestore';
 	import authStore from '../stores/authStore';
@@ -30,22 +24,10 @@
 			const analytics: Analytics = getAnalytics(app);
 
 			// Initialize AppCheck
-			if (typeof window !== 'undefined') {
-				const appCheck: AppCheck = initializeAppCheck(app, {
-					provider: new ReCaptchaV3Provider(import.meta.env.VITE_PUBLIC_RECAPTCHA_PUBLIC_KEY),
-					isTokenAutoRefreshEnabled: true
-				});
-				// // TESTING App Check INIT
-				// getToken(appCheck)
-				// 	.then((result: AppCheckTokenResult) => {
-				// 		console.log(process.env.NODE_ENV);
-				// 		console.log(result.token);
-				// 	})
-				// 	.catch((e: FirebaseError) => {
-				// 		console.log(process.env.NODE_ENV);
-				// 		console.log(e.code + ': ' + e.message);
-				// 	});
-			}
+			const appCheck: AppCheck = initializeAppCheck(app, {
+				provider: new ReCaptchaV3Provider(import.meta.env.VITE_PUBLIC_RECAPTCHA_PUBLIC_KEY),
+				isTokenAutoRefreshEnabled: true
+			});
 
 			// Initialize Authentication
 			const auth: Auth = getAuth(app);
