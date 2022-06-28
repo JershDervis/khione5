@@ -1,5 +1,6 @@
 <script context="module" lang="ts">
 	import { initializeApp, getApps, type FirebaseApp } from 'firebase/app';
+	import { getAnalytics, type Analytics } from 'firebase/analytics';
 	import { initializeAppCheck, ReCaptchaV3Provider, type AppCheck } from 'firebase/app-check';
 	import { getAuth, onAuthStateChanged, type Auth, type UserInfo } from 'firebase/auth';
 	import { getFirestore, doc, getDoc, setDoc, Firestore, Timestamp } from 'firebase/firestore';
@@ -19,6 +20,8 @@
 				appId: import.meta.env.VITE_PUBLIC_FIREBASE_APP_ID,
 				measurementId: import.meta.env.VITE_PUBLIC_FIREBASE_MEASUREMENT_ID
 			});
+
+			const analytics: Analytics = getAnalytics(app);
 
 			// Initialize AppCheck
 			const appCheck: AppCheck = initializeAppCheck(app, {

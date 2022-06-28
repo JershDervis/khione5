@@ -9,10 +9,6 @@
 	});
 </script>
 
-<svelte:head>
-	<script src="https://www.google.com/recaptcha/api.js" async defer></script>
-</svelte:head>
-
 <div class="flex columns-2">
 	<div>
 		<Navbar />

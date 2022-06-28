@@ -28,6 +28,7 @@
 		"prettier-plugin-svelte": "^2.7.0",
 		"stripe": "^9.8.0",
 		"svelte": "^3.44.0",
+		"svelte-adapter-firebase": "^0.14.1",
 		"svelte-check": "^2.7.1",
 		"svelte-loading-spinners": "^0.1.7",
 		"svelte-preprocess": "^4.10.7",
