@@ -21,13 +21,14 @@
 				measurementId: import.meta.env.VITE_PUBLIC_FIREBASE_MEASUREMENT_ID
 			});
 
-			const analytics: Analytics = getAnalytics(app);
-
-			// Initialize AppCheck
+			// Initialize AppCheck -- perhaps only do this if user is logged in
 			const appCheck: AppCheck = initializeAppCheck(app, {
 				provider: new ReCaptchaV3Provider(import.meta.env.VITE_PUBLIC_RECAPTCHA_PUBLIC_KEY),
 				isTokenAutoRefreshEnabled: true
 			});
+
+			// Initialize Google Analytics
+			const analytics: Analytics = getAnalytics(app);
 
 			// Initialize Authentication
 			const auth: Auth = getAuth(app);

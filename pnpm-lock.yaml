@@ -9,6 +9,7 @@ specifiers:
   '@typescript-eslint/parser': ^5.27.0
   autoprefixer: ^10.4.7
   bootstrap-icons: ^1.8.3
+  dayjs: ^1.11.3
   eslint: ^8.16.0
   eslint-config-prettier: ^8.3.0
   eslint-plugin-svelte3: ^4.0.0
@@ -30,14 +31,15 @@ specifiers:
 
 dependencies:
   bootstrap-icons: 1.8.3
+  dayjs: 1.11.3
   firebase: 9.8.3
   firebaseui: 6.0.1_firebase@9.8.3
 
 devDependencies:
   '@stripe/stripe-js': 1.32.0
-  '@sveltejs/adapter-auto': 1.0.0-next.52
+  '@sveltejs/adapter-auto': 1.0.0-next.53
   '@sveltejs/adapter-netlify': 1.0.0-next.64
-  '@sveltejs/kit': 1.0.0-next.355_svelte@3.48.0
+  '@sveltejs/kit': 1.0.0-next.357_svelte@3.48.0
   '@typescript-eslint/eslint-plugin': 5.28.0_7yumg2qjgbp7maccqlfhx2vudu
   '@typescript-eslint/parser': 5.28.0_ud6rd4xtew5bv4yhvkvu24pzm4
   autoprefixer: 10.4.7_postcss@8.4.14
@@ -49,7 +51,7 @@ devDependencies:
   prettier-plugin-svelte: 2.7.0_hkopcrdgm3iqdwvvzss26f6wjy
   stripe: 9.8.0
   svelte: 3.48.0
-  svelte-adapter-firebase: 0.14.1_eftnubekofketp3ufxlroaxbmy
+  svelte-adapter-firebase: 0.14.1_rgojztaagr6pslj3h6vupk2tj4
   svelte-check: 2.7.2_s3dopqgs4h45owyu2kxaf6kyfu
   svelte-loading-spinners: 0.1.7
   svelte-preprocess: 4.10.7_ul755q3dxsprj73ozc64nxdp4y
@@ -677,19 +679,19 @@ packages:
     resolution: {integrity: sha512-7EvBnbBfS1aynfLRmBFcuumHNGjKxnNkO47rorFBktqDYHwo7Yw6pfDW2iqq0R8r7i7XiJEdWPvvEgQAiDrx3A==}
     dev: true
 
-  /@sveltejs/adapter-auto/1.0.0-next.52:
-    resolution: {integrity: sha512-jOuC7RauiwGg7BQQEZxBGcwtwynNqQSuGJ7MJ9kk5WIrFCMrZSclwnpO1yLmUUYFKvJ61Z7bvVoDqm6+CgLEaw==}
+  /@sveltejs/adapter-auto/1.0.0-next.53:
+    resolution: {integrity: sha512-LyaeU0rkcymGWvV/3K26AZxqG/+ZQHwa+hrx3xsbmOykjQ2WQPTXRVwmH23zV4A5ABvni76LRMsQOoqWzP3G9Q==}
     dependencies:
-      '@sveltejs/adapter-cloudflare': 1.0.0-next.23
-      '@sveltejs/adapter-netlify': 1.0.0-next.65
+      '@sveltejs/adapter-cloudflare': 1.0.0-next.24
+      '@sveltejs/adapter-netlify': 1.0.0-next.66
       '@sveltejs/adapter-vercel': 1.0.0-next.59
     transitivePeerDependencies:
       - encoding
       - supports-color
     dev: true
 
-  /@sveltejs/adapter-cloudflare/1.0.0-next.23:
-    resolution: {integrity: sha512-WaDE25Ib3Q9kM1BBxvGxr57vfExg0Q1Wu2H3dSFV4Apw18UHKS89P/U6wd4u4zAzAw+Mcm8gduX/rRs5z0YMwA==}
+  /@sveltejs/adapter-cloudflare/1.0.0-next.24:
+    resolution: {integrity: sha512-g1QSrjWYjM6sfJB+pQn52EIfbVFjpk23GYsj5PLt2Gi3zRNfLRbpkFkPeyAOZbAfT4k/9lUqfLW+pkh+W3yxlg==}
     dependencies:
       esbuild: 0.14.43
       worktop: 0.8.0-next.14
@@ -704,8 +706,8 @@ packages:
       tiny-glob: 0.2.9
     dev: true
 
-  /@sveltejs/adapter-netlify/1.0.0-next.65:
-    resolution: {integrity: sha512-81LYVqT0Fez7xqvOdE9ITD7b5kxdzzXjXwJ0ISBfJYt6wqg0fmABm3mcDy3opXau7DoQkhkhnlqkharTHfhJQg==}
+  /@sveltejs/adapter-netlify/1.0.0-next.66:
+    resolution: {integrity: sha512-UypTRnTd+R1O6SaDdc8l3A3c9/mQF8xLNoVb3Ay5ipb7uPU5WmjVYjfLVGyeVy67gztFfeFC/9Esu4OI2Ayx1A==}
     dependencies:
       '@iarna/toml': 2.2.5
       esbuild: 0.14.43
@@ -723,8 +725,8 @@ packages:
       - supports-color
     dev: true
 
-  /@sveltejs/kit/1.0.0-next.355_svelte@3.48.0:
-    resolution: {integrity: sha512-4M+BZL/kKgw5tMRkAYcpg38hxMX80iz6H9+nv2v6VzvKhD4Pw6zatzMs2D6PCT2uBHnrKGrUCheBBcK8kZdWKg==}
+  /@sveltejs/kit/1.0.0-next.357_svelte@3.48.0:
+    resolution: {integrity: sha512-nCAehVybIEpQNnPu61V/EFVdfDb1nBSiQUfW9EcSSDEUbyAMCVBOKZZuzQ0qQDp3xniqRkyDzpBA4wN+ADxHBw==}
     engines: {node: '>=16.7'}
     hasBin: true
     peerDependencies:
@@ -1219,6 +1221,10 @@ packages:
     engines: {node: '>=4'}
     hasBin: true
     dev: true
+
+  /dayjs/1.11.3:
+    resolution: {integrity: sha512-xxwlswWOlGhzgQ4TKzASQkUhqERI3egRNqgV4ScR8wlANA/A9tZ7miXa44vTTKEq5l7vWoL5G57bG3zA+Kow0A==}
+    dev: false
 
   /debug/3.2.7:
     resolution: {integrity: sha512-CFjzYYAi4ThfiQvizrFQevTTXHtnCqWfe7x1AhgEscTz6ZbLbfoLRLPugTQyBth6f8ZERVUSyWHFD/7Wu4t1XQ==}
@@ -2917,13 +2923,13 @@ packages:
     engines: {node: '>= 0.4'}
     dev: true
 
-  /svelte-adapter-firebase/0.14.1_eftnubekofketp3ufxlroaxbmy:
+  /svelte-adapter-firebase/0.14.1_rgojztaagr6pslj3h6vupk2tj4:
     resolution: {integrity: sha512-mHs0FOAmgQ/Yco+0duixMGHKt1kyekmSBgvBOTQ2h9RlwQNd2rkEfNmUNgfoYpVMzxeVEYYlKzVjBeijf/bI5Q==}
     engines: {node: ^14.13.1 || >= 16}
     peerDependencies:
       '@sveltejs/kit': ^1.0.0-next.343
     dependencies:
-      '@sveltejs/kit': 1.0.0-next.355_svelte@3.48.0
+      '@sveltejs/kit': 1.0.0-next.357_svelte@3.48.0
       esbuild: 0.14.43
     dev: true
 
