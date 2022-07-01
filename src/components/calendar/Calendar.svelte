@@ -25,8 +25,8 @@
 	];
 
 	// Need to make these writable stores
-	export let firstSelected: number | undefined = undefined;
-	export let secondSelected: number | undefined = undefined;
+	var firstSelected: number | undefined = undefined;
+	var secondSelected: number | undefined = undefined;
 
 	const selectDay = (day: number) => () => {
 		if (firstSelected == undefined) {
