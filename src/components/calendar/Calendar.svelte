@@ -8,6 +8,9 @@
 	dayjs.extend(timezone);
 	dayjs.tz.setDefault('Australia/Sydney');
 
+	// Todays dayjs object
+	const today = dayjs();
+
 	// This may already exist in DayJS library
 	const months: string[] = [
 		'January',
@@ -24,27 +27,14 @@
 		'December'
 	];
 
-	// Need to make these writable stores
-	var firstSelected: number | undefined = undefined;
-	var secondSelected: number | undefined = undefined;
-
-	const selectDay = (day: number) => () => {
-		if (firstSelected == undefined) {
-			firstSelected = day;
-		} else if (firstSelected != undefined && firstSelected == day) {
-			firstSelected = undefined;
-		} else if (secondSelected == undefined) {
-			secondSelected = day;
-		} else if (secondSelected != undefined && secondSelected == day) {
-			secondSelected = undefined;
-		} else {
-			firstSelected = undefined;
-			secondSelected = undefined;
-		}
-	};
-
-	$: firstUpdater = firstSelected;
-	$: secondUpdater = secondSelected;
+	/**
+	 * Event is fired when user selects the child <code>DayCell.svelte</code>
+	 * @param event
+	 */
+	function selectDay(event: CustomEvent) {
+		const { day } = event.detail;
+		console.log('Selected day: ' + day);
+	}
 
 	/**
 	 * Need some sort of array of booking ranges.
@@ -54,9 +44,9 @@
 
 	// Bit of logging for debugging
 	if (process.env.NODE_ENV !== 'production') {
-		console.log('Current Date: ' + dayjs().format());
-		console.log('Current Month: ' + months[dayjs().month()]);
-		console.log('Todays day: ' + dayjs().date());
+		console.log('Current Date: ' + today.format());
+		console.log('Current Month: ' + months[today.month()]);
+		console.log('Todays day: ' + today.date());
 	}
 </script>
 
@@ -66,16 +56,8 @@
 </div>
 <!-- Days of Month -->
 <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6">
-	{#each Array(dayjs().daysInMonth()) as _, i}
+	{#each Array(today.daysInMonth()) as _, i}
 		{@const day = i + 1}
-		{@const isToday = day == dayjs().date()}
-		{@const baseCellCss = 'bg-slate-400 hover:cursor-pointer p-6'}
-
-		<div
-			on:click={selectDay(day)}
-			class="{baseCellCss} {isToday ? 'bg-slate-600 hover:bg-slate-500' : 'hover:bg-slate-200'}"
-		>
-			<DayCell {day} {isToday} />
-		</div>
+		<DayCell {today} {day} on:selectday={selectDay} />
 	{/each}
 </div>
