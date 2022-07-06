@@ -1,27 +1,39 @@
 <script lang="ts">
 	import type { Dayjs } from 'dayjs';
+	import dayjs from 'dayjs';
 	import { createEventDispatcher } from 'svelte';
 
 	const dispatch = createEventDispatcher();
 
 	// The DayJS object for today
-	export let today: Dayjs | undefined = undefined;
+	export let dayObj: Dayjs | undefined = undefined;
 
 	// Defines this DayCell's day of the month
 	export let day: number | undefined = undefined;
 
-	// Set to true if the house is booked on this day
-	export let isBooked: boolean = false;
+	// NEED TO UPDATE TO WORK OFF DATE... NOT MONTH
+	// OTHERWISE THIS WILL NOT WORK FROM DECEMBER TO THE NEW YEAR
+	$: displayedMonth = dayObj?.month() as Number;
+	$: displayedYear = dayObj?.year() as Number;
 
-	const isToday: boolean = day == today?.date();
-
-	$: isSelectable = (day as number) > (today as Dayjs).date() /*|| !isBooked*/;
+	/**
+	 * Updates depending on whether this day should be selectable
+	 */
+	$: isSelectable =
+		((displayedYear > dayjs().year() ? true : displayedMonth > dayjs().month()) &&
+			displayedYear >= dayjs().year()) ||
+		(displayedYear == dayjs().year() &&
+			displayedMonth == dayjs().month() &&
+			(day as Number) > dayjs().date());
 
 	/**
 	 * Dispatch an event for when the user selects this day
 	 */
 	function selectDay() {
-		if (isSelectable) dispatch('selectday', { day });
+		if (isSelectable) {
+			const selectedObj = dayObj?.clone().set('date', day as number);
+			dispatch('selectday', { selectedObj });
+		}
 	}
 </script>
 

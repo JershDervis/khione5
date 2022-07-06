@@ -59,9 +59,10 @@
 					{/if}
 					{#if typeof nav.href === 'string'}
 						<a
-							class="flex items-center px-4 py-2 {index > 0 ? 'mt-5' : ''} {nav.href == curPath
-								? 'text-gray-700 bg-gray-200 rounded-md dark:bg-gray-700 dark:text-gray-200'
-								: 'text-gray-600 transition-colors duration-200 transform rounded-md dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 dark:hover:text-gray-200 hover:text-gray-700'}"
+							class="flex items-center px-4 py-2 rounded-md {index > 0 ? 'mt-5' : ''} {nav.href ==
+							curPath
+								? 'text-gray-700 bg-gray-200 dark:bg-gray-700 dark:text-gray-200'
+								: 'text-gray-600 transition-colors duration-200 transform dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 dark:hover:text-gray-200 hover:text-gray-700'}"
 							href={nav.href}
 						>
 							{#if nav.icon}
