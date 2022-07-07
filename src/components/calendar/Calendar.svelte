@@ -61,12 +61,9 @@
 	{#each days as d}
 		<h2 class="text-center">{d}</h2>
 	{/each}
-	{#each Array(dayjs().startOf('month').day()) as i}
+	{#each Array(shownObj.startOf('month').day()) as i}
 		<div />
 	{/each}
-	<!-- Fill empty days at start of month -->
-	<!-- dayjs().startOf("month").day()  -->
-
 	<!-- Days of Month -->
 	{#each Array(shownObj.daysInMonth()) as _, i}
 		{@const day = i + 1}
