@@ -4,6 +4,7 @@
 	import { initializeAppCheck, ReCaptchaV3Provider, type AppCheck } from 'firebase/app-check';
 	import { getAuth, onAuthStateChanged, type Auth, type UserInfo } from 'firebase/auth';
 	import { getFirestore, doc, getDoc, setDoc, Firestore, Timestamp } from 'firebase/firestore';
+	import { getRemoteConfig, type RemoteConfig } from 'firebase/remote-config';
 	import authStore from '../stores/authStore';
 
 	/**
@@ -35,6 +36,11 @@
 
 			// Initialize Firestore
 			const db: Firestore = getFirestore(app);
+
+			// Initialize Remote Config
+			const remoteConfig: RemoteConfig = getRemoteConfig(app);
+			if (process.env.NODE_ENV !== 'production')
+				remoteConfig.settings.minimumFetchIntervalMillis = 3600000;
 
 			// Listen for user auth state change
 			onAuthStateChanged(auth, async (user: UserInfo | null) => {

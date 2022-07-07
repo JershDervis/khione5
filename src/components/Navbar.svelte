@@ -27,7 +27,7 @@
 
 	const navItems: NavItem[] = [
 		{ label: 'Home', icon: HomeIcon, href: '/' },
-		{ label: 'My Bookings', icon: BookingsIcon, href: '/bookings' }
+		{ label: 'Bookings', icon: BookingsIcon, href: '/bookings' }
 	];
 
 	const profileItems: NavItem[] = [

@@ -8,11 +8,13 @@
 	dayjs.extend(timezone);
 	dayjs.tz.setDefault('Australia/Sydney');
 
-	let curMonth: number = 0;
 	const today = dayjs();
+	let curMonth: number = 0;
 	$: shownObj = dayjs().set('month', today.month() + curMonth);
 
-	// This may already exist in DayJS library
+	/**
+	 * Convert integer month to string value
+	 */
 	const months: string[] = [
 		'January',
 		'February',
@@ -28,13 +30,14 @@
 		'December'
 	];
 
+	const days: string[] = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+
 	/**
 	 * Event is fired when user selects the child <code>DayCell.svelte</code>
 	 * @param event
 	 */
 	function selectDay(event: CustomEvent) {
 		const { selectedObj } = event.detail;
-
 		console.log((selectedObj as Dayjs).format());
 	}
 
@@ -50,13 +53,23 @@
 		{months[shownObj.month()]}
 		{shownObj.year()}
 	</h1>
-	<button on:click={() => curMonth--}>Back</button>
-	<button on:click={() => curMonth++}>Forward</button>
+	<button on:click={() => curMonth--}>←</button>
+	<button on:click={() => curMonth++}>→</button>
 </div>
-<div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6">
+<div class="grid grid-cols-7">
+	<!-- Days of Week -->
+	{#each days as d}
+		<h2 class="text-center">{d}</h2>
+	{/each}
+	{#each Array(dayjs().startOf('month').day()) as i}
+		<div />
+	{/each}
+	<!-- Fill empty days at start of month -->
+	<!-- dayjs().startOf("month").day()  -->
+
 	<!-- Days of Month -->
 	{#each Array(shownObj.daysInMonth()) as _, i}
 		{@const day = i + 1}
-		<DayCell dayObj={shownObj} {day} on:selectday={selectDay} />
+		<DayCell {day} {today} dayObj={shownObj} on:selectday={selectDay} />
 	{/each}
 </div>
