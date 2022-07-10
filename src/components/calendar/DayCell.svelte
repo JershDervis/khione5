@@ -36,8 +36,8 @@
 	<span
 		on:click={selectDay}
 		class="py-2 md:py-6 lg:py-6 text-center {isSelectable
-			? 'text-slate-600 bg-slate-300 hover:bg-slate-400 hover:cursor-pointer'
-			: 'bg-slate-600 text-slate-400'}"
+			? 'text-slate-900 hover:bg-slate-100 rounded-md hover:cursor-pointer'
+			: 'text-slate-400'}"
 	>
 		{day}
 	</span>
