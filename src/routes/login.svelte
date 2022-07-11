@@ -2,7 +2,7 @@
 	import { onMount } from 'svelte';
 	import { getAuth } from 'firebase/auth';
 	import { GoogleAuthProvider, FacebookAuthProvider, EmailAuthProvider } from 'firebase/auth';
-	import authStore from '../stores/authStore';
+	import authStore from '$stores/authStore';
 	import 'firebaseui/dist/firebaseui.css';
 
 	// The element ID for FirebaseUI to insert to

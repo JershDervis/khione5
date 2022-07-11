@@ -23,4 +23,4 @@ Everything to be able to take online bookings for customers.
   - [x] Analytics
   - [x] Authentication (Google / Facebook)
   - [x] Firestore
-- [x] Deployed on Netlify
+- [x] Deployed on ~~Netlify~~ Vercel (easiest to use)
