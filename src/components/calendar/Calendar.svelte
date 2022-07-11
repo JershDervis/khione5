@@ -3,8 +3,6 @@
 	import utc from 'dayjs/plugin/utc.js';
 	import timezone from 'dayjs/plugin/timezone.js';
 	import DayCell from './DayCell.svelte';
-	import { endBefore } from 'firebase/firestore';
-	import { append_hydration } from 'svelte/internal';
 
 	dayjs.extend(utc);
 	dayjs.extend(timezone);
@@ -80,5 +78,10 @@
 	{#each Array(shownObj.daysInMonth()) as _, i}
 		{@const day = i + 1}
 		<DayCell {day} {today} dayObj={shownObj} on:selectday={selectDay} />
+	{/each}
+
+	<!-- Account for start of future month -->
+	{#each Array(shownObj.endOf('month').day()) as aDay, i}
+		{console.log(aDay, i)}
 	{/each}
 </div>

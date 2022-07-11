@@ -1,23 +1,18 @@
 <script context="module" lang="ts">
-	import { initializeApp, getApps, type FirebaseApp } from 'firebase/app';
-	import { getAnalytics, type Analytics } from 'firebase/analytics';
-	import { initializeAppCheck, ReCaptchaV3Provider, type AppCheck } from 'firebase/app-check';
-	import { getAuth, onAuthStateChanged, type Auth, type UserInfo } from 'firebase/auth';
-	import { getFirestore, doc, getDoc, setDoc, Firestore, Timestamp } from 'firebase/firestore';
-	import {
-		getRemoteConfig,
-		fetchAndActivate,
-		getNumber,
-		type RemoteConfig
-	} from 'firebase/remote-config';
-	import authStore from '../stores/authStore';
+	import { initializeApp, getApps } from 'firebase/app';
+	import { getAnalytics } from 'firebase/analytics';
+	import { initializeAppCheck, ReCaptchaV3Provider } from 'firebase/app-check';
+	import { getAuth, onAuthStateChanged, type UserInfo } from 'firebase/auth';
+	import { getFirestore, doc, getDoc, setDoc, Timestamp } from 'firebase/firestore';
+	import { getRemoteConfig, fetchAndActivate, getNumber } from 'firebase/remote-config';
+	import authStore from '$stores/authStore';
 
 	/**
 	 * Call this method to initialize firebase services
 	 */
 	export function initFirebase() {
 		if (!getApps().length) {
-			const app: FirebaseApp = initializeApp({
+			const app = initializeApp({
 				apiKey: import.meta.env.VITE_PUBLIC_FIREBASE_API_KEY,
 				authDomain: import.meta.env.VITE_PUBLIC_FIREBASE_AUTH_DOMAIN,
 				projectId: import.meta.env.VITE_PUBLIC_FIREBASE_PROJECT_ID,
@@ -28,22 +23,22 @@
 			});
 
 			// Initialize AppCheck -- perhaps only do this if user is logged in
-			const appCheck: AppCheck = initializeAppCheck(app, {
+			const appCheck = initializeAppCheck(app, {
 				provider: new ReCaptchaV3Provider(import.meta.env.VITE_PUBLIC_RECAPTCHA_PUBLIC_KEY),
 				isTokenAutoRefreshEnabled: true
 			});
 
 			// Initialize Google Analytics
-			const analytics: Analytics = getAnalytics(app);
+			const analytics = getAnalytics(app);
 
 			// Initialize Authentication
-			const auth: Auth = getAuth(app);
+			const auth = getAuth(app);
 
 			// Initialize Firestore
-			const db: Firestore = getFirestore(app);
+			const db = getFirestore(app);
 
 			// Initialize Remote Config
-			const remoteConfig: RemoteConfig = getRemoteConfig(app);
+			const remoteConfig = getRemoteConfig(app);
 			if (process.env.NODE_ENV !== 'production')
 				remoteConfig.settings.minimumFetchIntervalMillis = 3600000;
 			// await fetchAndActivate(remoteConfig); // Might need to incorporate loading screen for these values

@@ -3,13 +3,20 @@
     "selected": 1
   },
   "1 error pnpm": {
-    "code": "ERR_PNPM_INIT_ARG",
-    "hint": "Maybe you wanted to run \"pnpm create svelte ./\"",
+    "code": "ELIFECYCLE",
+    "errno": "ENOENT",
+    "syscall": "spawn",
+    "file": "sh",
+    "pkgid": "sveltekit-test@0.0.1",
+    "stage": "dev",
+    "script": "vite dev",
+    "pkgname": "sveltekit-test",
     "err": {
       "name": "pnpm",
-      "message": "init command does not accept any arguments",
-      "code": "ERR_PNPM_INIT_ARG",
-      "stack": "pnpm: init command does not accept any arguments\n    at Object.handler [as init] (/snapshot/dist/pnpm.cjs)\n    at /snapshot/dist/pnpm.cjs\n    at async run (/snapshot/dist/pnpm.cjs)\n    at async runPnpm (/snapshot/dist/pnpm.cjs)\n    at async /snapshot/dist/pnpm.cjs"
+      "message": "sveltekit-test@0.0.1 dev: `vite dev`\nspawn ENOENT",
+      "code": "ELIFECYCLE",
+      "stack": "pnpm: sveltekit-test@0.0.1 dev: `vite dev`\nspawn ENOENT\n    at ChildProcess.<anonymous> (/Users/josh/Library/pnpm/global/5/.pnpm/pnpm@7.5.0/node_modules/pnpm/dist/pnpm.cjs:95169:22)\n    at ChildProcess.emit (node:events:537:28)\n    at maybeClose (node:internal/child_process:1091:16)\n    at ChildProcess._handle.onexit (node:internal/child_process:302:5)"
     }
-  }
+  },
+  "2 warn pnpm:global": " Local package.json exists, but node_modules missing, did you mean to install?"
 }

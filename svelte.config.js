@@ -1,7 +1,5 @@
-// import adapter from '@sveltejs/adapter-auto';
-import preprocess from 'svelte-preprocess';
-import path from 'path';
 import adapter from '@sveltejs/adapter-netlify';
+import preprocess from 'svelte-preprocess';
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
@@ -12,23 +10,9 @@ const config = {
       postcss: true,
     }),
   ],
-  kit: {
-    adapter: adapter(),
-    vite: {
-      server: {
-        fs: {
-          allow: ['static']
-        }
-      },
-      resolve: {
-        alias: {
-          $static: path.resolve('./static'),
-          $components: path.resolve('./src/components'),
-          $stores: path.resolve('./src/stores'),
-        }
-      }
-    } 
-  }
+	kit: {
+		adapter: adapter()
+	}
 };
 
 export default config;

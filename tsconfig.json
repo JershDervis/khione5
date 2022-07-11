@@ -4,21 +4,20 @@
 		"allowJs": true,
 		"checkJs": true,
 		"esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
 		"forceConsistentCasingInFileNames": true,
 		"resolveJsonModule": true,
 		"skipLibCheck": true,
 		"sourceMap": true,
 		"strict": true,
     "paths": {
-      "$lib":["src/lib"],
-      "$lib/*":["src/lib/*"],
+      "$lib": ["src/lib"],
+			"$lib/*": ["src/lib/*"],
+      "$components": ["src/components"],
+			"$components/*": ["src/components/*"],
       "$static":["src/static"],
       "$static/*":["src/static/*"],
       "$stores":["src/stores"],
       "$stores/*":["src/stores/*"],
-      "$components":["src/components"],
-      "$components/*":["src/components/*"]
     }
-	}
+	},
 }

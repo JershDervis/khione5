@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { initFirebase } from '$lib/Firebase.svelte';
+  import { initFirebase } from '$lib/Firebase.svelte';
 	import Navbar from '$components/Navbar.svelte';
 	import '../app.css';
 

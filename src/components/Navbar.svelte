@@ -11,16 +11,16 @@
 
 <script lang="ts">
 	import { page } from '$app/stores';
-	import authStore from '../stores/authStore';
+	import authStore from '$stores/authStore';
 	import Image from '$lib/Image.svelte';
 	import { slide } from 'svelte/transition';
 	import { logout } from '$lib/Firebase.svelte';
 
-	import HomeIcon from '$static/icons/home.svelte';
-	import BookingsIcon from '$static/icons/bookings.svelte';
+	import HomeIcon from '$static/home.svelte';
+	import BookingsIcon from '$static/bookings.svelte';
 
-	import ProfileIcon from '$static/icons/profile.svelte';
-	import LogoutIcon from '$static/icons/logout.svelte';
+	import ProfileIcon from '$static/profile.svelte';
+	import LogoutIcon from '$static/logout.svelte';
 
 	// The currently navigated page
 	$: curPath = $page.url.pathname;
