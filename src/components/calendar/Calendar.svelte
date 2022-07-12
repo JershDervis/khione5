@@ -3,6 +3,7 @@
 	import utc from 'dayjs/plugin/utc.js';
 	import timezone from 'dayjs/plugin/timezone.js';
 	import DayCell from './DayCell.svelte';
+	import { calendarStore } from '$stores/calendarStore';
 
 	dayjs.extend(utc);
 	dayjs.extend(timezone);
@@ -41,12 +42,37 @@
 	 */
 	function selectDay(event: CustomEvent) {
 		const { selectedObj } = event.detail;
-		console.log((selectedObj as Dayjs).format());
+		if ($calendarStore.fstSelectedDay === undefined) {
+			calendarStore.set({
+				fstSelectedDay: selectedObj,
+				sndSelectedDay: undefined
+			});
+		} else if ($calendarStore.sndSelectedDay === undefined) {
+			calendarStore.set({
+				fstSelectedDay: $calendarStore.fstSelectedDay,
+				sndSelectedDay: selectedObj
+			});
+		} else {
+			// Reset and re-run logic
+			calendarStore.set({
+				fstSelectedDay: undefined,
+				sndSelectedDay: undefined
+			});
+			selectDay(event);
+		}
+
+		if (
+			$calendarStore.fstSelectedDay !== undefined &&
+			$calendarStore.sndSelectedDay !== undefined
+		) {
+			console.log($calendarStore.fstSelectedDay.format());
+			console.log($calendarStore.sndSelectedDay.format());
+		}
 	}
 
 	/**
 	 * Need some sort of array of booking ranges.
-	 * Filter for my bookings / availabilities
+	 * Filter for 'my' bookings / availabilities
 	 * If the user is an admin then the array returned includes more info about the bookings
 	 */
 </script>
@@ -81,7 +107,7 @@
 	{/each}
 
 	<!-- Account for start of future month -->
-	{#each Array(shownObj.endOf('month').day()) as aDay, i}
-		{console.log(aDay, i)}
+	{#each Array(days.length - shownObj.endOf('month').day() - 1) as aDay, i}
+		<DayCell day={i + 1} {today} dayObj={futureObj} on:selectday={selectDay} />
 	{/each}
 </div>

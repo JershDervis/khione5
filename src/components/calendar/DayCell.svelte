@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type { Dayjs } from 'dayjs';
+	import { calendarStore } from '$stores/calendarStore';
 	import { createEventDispatcher } from 'svelte';
 
 	const dispatch = createEventDispatcher();
@@ -14,12 +15,14 @@
 	export let dayObj: Dayjs;
 
 	/**
+	 * Dayjs object of this object
+	 */
+	$: todayDayjs = dayObj.clone().set('date', day);
+
+	/**
 	 * Updates depending on whether this day should be selectable
 	 */
-	$: isSelectable =
-		((dayObj.year() > today.year() ? true : dayObj.month() > today.month()) &&
-			dayObj.year() >= today.year()) ||
-		(dayObj.year() == today.year() && dayObj.month() == today.month() && day > today.date());
+	$: isSelectable = todayDayjs.isAfter(today);
 
 	/**
 	 * Dispatch an event for when the user selects this day
@@ -29,6 +32,15 @@
 			const selectedObj = dayObj.clone().set('date', day);
 			dispatch('selectday', { selectedObj });
 		}
+	}
+
+	/**
+	 *
+	 * @param dateToCheck
+	 * @param dateToCompareBefore
+	 */
+	function isDateBefore(dateToCheck: Dayjs, dateToCompareBefore: Dayjs): boolean {
+		return dateToCheck.isBefore(dateToCompareBefore);
 	}
 </script>
 
