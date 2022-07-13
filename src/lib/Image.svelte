@@ -33,9 +33,5 @@
 {:else if failed}
 	<img class={$$props.class} src={failedSrc} alt={failedAlt} />
 {:else if loading}
-	<img
-		class={$$props.class}
-		src="https://c.tenor.com/On7kvXhzml4AAAAi/loading-gif.gif"
-		alt="Loading..."
-	/>
+	<img class={$$props.class} src="/loading.gif" alt="Loading..." />
 {/if}

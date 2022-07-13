@@ -25,7 +25,7 @@
 			// Initialize AppCheck -- perhaps only do this if user is logged in
 			const appCheck = initializeAppCheck(app, {
 				provider: new ReCaptchaV3Provider(import.meta.env.VITE_PUBLIC_RECAPTCHA_PUBLIC_KEY),
-				isTokenAutoRefreshEnabled: true
+				isTokenAutoRefreshEnabled: false
 			});
 
 			// Initialize Google Analytics

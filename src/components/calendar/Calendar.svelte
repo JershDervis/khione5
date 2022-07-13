@@ -1,5 +1,5 @@
 <script lang="ts">
-	import dayjs, { Dayjs } from 'dayjs';
+	import dayjs from 'dayjs';
 	import utc from 'dayjs/plugin/utc.js';
 	import timezone from 'dayjs/plugin/timezone.js';
 	import DayCell from './DayCell.svelte';
@@ -15,6 +15,9 @@
 
 	$: prevObj = shownObj.set('month', shownObj.month() - 1);
 	$: futureObj = shownObj.set('month', shownObj.month() + 1);
+
+	$: datesDefined =
+		$calendarStore.fstSelectedDay !== undefined && $calendarStore.sndSelectedDay !== undefined;
 
 	/**
 	 * Convert integer month to string value
@@ -34,47 +37,16 @@
 		'December'
 	];
 
-	const days: string[] = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
-
-	/**
-	 * Event is fired when user selects the child <code>DayCell.svelte</code>
-	 * @param event
-	 */
-	function selectDay(event: CustomEvent) {
-		const { selectedObj } = event.detail;
-		if ($calendarStore.fstSelectedDay === undefined) {
-			calendarStore.set({
-				fstSelectedDay: selectedObj,
-				sndSelectedDay: undefined
-			});
-		} else if ($calendarStore.sndSelectedDay === undefined) {
-			calendarStore.set({
-				fstSelectedDay: $calendarStore.fstSelectedDay,
-				sndSelectedDay: selectedObj
-			});
-		} else {
-			// Reset and re-run logic
-			calendarStore.set({
-				fstSelectedDay: undefined,
-				sndSelectedDay: undefined
-			});
-			selectDay(event);
-		}
-
-		if (
-			$calendarStore.fstSelectedDay !== undefined &&
-			$calendarStore.sndSelectedDay !== undefined
-		) {
-			console.log($calendarStore.fstSelectedDay.format());
-			console.log($calendarStore.sndSelectedDay.format());
-		}
-	}
-
-	/**
-	 * Need some sort of array of booking ranges.
-	 * Filter for 'my' bookings / availabilities
-	 * If the user is an admin then the array returned includes more info about the bookings
-	 */
+	const daysShort: string[] = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
+	const daysLong: string[] = [
+		'Sunday',
+		'Monday',
+		'Tuesday',
+		'Wednesday',
+		'Thursday',
+		'Friday',
+		'Saturday'
+	];
 </script>
 
 <div class="grid grid-cols-3">
@@ -89,7 +61,7 @@
 </div>
 <div class="grid grid-cols-7">
 	<!-- Days of Week -->
-	{#each days as d}
+	{#each daysShort as d}
 		<h2 class="text-center font-bold">{d}</h2>
 	{/each}
 
@@ -97,17 +69,33 @@
 	{#each Array(shownObj.startOf('month').day()) as aDay, i}
 		{@const lastDayOfLastMonth =
 			prevObj.endOf('month').date() - shownObj.startOf('month').day() + i + 1}
-		<DayCell day={lastDayOfLastMonth} {today} dayObj={prevObj} on:selectday={selectDay} />
+		<DayCell day={lastDayOfLastMonth} {today} dayObj={prevObj} />
 	{/each}
 
 	<!-- Days of Displayed Month -->
 	{#each Array(shownObj.daysInMonth()) as _, i}
 		{@const day = i + 1}
-		<DayCell {day} {today} dayObj={shownObj} on:selectday={selectDay} />
+		<DayCell {day} {today} dayObj={shownObj} />
 	{/each}
 
 	<!-- Account for start of future month -->
-	{#each Array(days.length - shownObj.endOf('month').day() - 1) as aDay, i}
-		<DayCell day={i + 1} {today} dayObj={futureObj} on:selectday={selectDay} />
+	{#each Array(daysShort.length - shownObj.endOf('month').day() - 1) as aDay, i}
+		<DayCell day={i + 1} {today} dayObj={futureObj} />
 	{/each}
 </div>
+
+<!-- Display how many nights stay is selected -->
+{#if $calendarStore.fstSelectedDay !== undefined}
+	<div>
+		<b>From</b>: {daysLong[$calendarStore.fstSelectedDay.day()] +
+			' ' +
+			$calendarStore.fstSelectedDay.format('DD/MM/YYYY')}
+		{#if $calendarStore.sndSelectedDay !== undefined}
+			{@const nightsStay = $calendarStore.sndSelectedDay.diff($calendarStore.fstSelectedDay, 'day')}
+			<b>To</b>: {$calendarStore.sndSelectedDay.format('DD/MM/YYYY')}
+			<div>
+				({nightsStay} nights stay)
+			</div>
+		{/if}
+	</div>
+{/if}
