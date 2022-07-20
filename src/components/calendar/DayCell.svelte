@@ -1,6 +1,9 @@
 <script lang="ts">
 	import type { Dayjs } from 'dayjs';
 	import { calendarStore } from '$stores/calendarStore';
+	import { createEventDispatcher } from 'svelte';
+
+	const dispatch = createEventDispatcher();
 
 	// Defines this DayCell's day of the month
 	export let day: number;
@@ -42,38 +45,17 @@
 			objDayjs.isSame($calendarStore.fstSelectedDay)) &&
 		(objDayjs.isBefore($calendarStore.hoveredDay) || objDayjs.isSame($calendarStore.hoveredDay));
 
+	$: isFirstSelected =
+		$calendarStore.fstSelectedDay !== undefined &&
+		$calendarStore.sndSelectedDay === undefined &&
+		objDayjs.isSame($calendarStore.fstSelectedDay);
+
 	function selectDay() {
 		if (isSelectable) {
-			if ($calendarStore.fstSelectedDay === undefined) {
-				calendarStore.set({
-					fstSelectedDay: objDayjs,
-					sndSelectedDay: undefined,
-					hoveredDay: $calendarStore.hoveredDay
-				});
-			} else if (
-				$calendarStore.fstSelectedDay !== undefined &&
-				objDayjs.isBefore($calendarStore.fstSelectedDay)
-			) {
-				calendarStore.set({
-					fstSelectedDay: objDayjs,
-					sndSelectedDay: undefined,
-					hoveredDay: $calendarStore.hoveredDay
-				});
-			} else if ($calendarStore.sndSelectedDay === undefined) {
-				calendarStore.set({
-					fstSelectedDay: $calendarStore.fstSelectedDay,
-					sndSelectedDay: objDayjs,
-					hoveredDay: $calendarStore.hoveredDay
-				});
-			} else {
-				// Reset and re-run logic
-				calendarStore.set({
-					fstSelectedDay: undefined,
-					sndSelectedDay: undefined,
-					hoveredDay: undefined
-				});
-				selectDay();
-			}
+			// Pass the event back up to the parent element
+			dispatch('selectday', {
+				objDayjs
+			});
 		}
 	}
 
@@ -97,10 +79,12 @@
 		on:mouseenter={onMouseEnter}
 		on:mouseleave={onMouseLeave}
 		on:click={selectDay}
-		class="py-2 md:py-6 lg:py-6 text-center 
+		class="py-2 md:py-6 lg:py-6 text-center
       {isSelectable ? 'text-slate-900 hover:bg-slate-100 hover:cursor-pointer' : 'text-slate-400'}
-      {inHoverRange ? 'bg-red-100 hover:bg-red-100 rounded-none' : ''}
-      {withinSelectedRange ? 'bg-red-300 hover:bg-red-100 rounded-none font-semibold' : ''}"
+      {inHoverRange ? 'bg-slate-200 hover:bg-slate-200 rounded-none' : ''}
+      {withinSelectedRange || isFirstSelected
+			? 'bg-slate-300 hover:bg-slate-200 rounded-none font-semibold'
+			: ''}"
 	>
 		<span>
 			{day}
