@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-  import { initFirebase } from '$lib/Firebase.svelte';
+	import { initFirebase } from '$lib/Firebase.svelte';
 	import Navbar from '$components/Navbar.svelte';
 	import '../app.css';
 
@@ -9,6 +9,7 @@
 	});
 </script>
 
+<!-- <Navbar /> -->
 <div class="flex columns-2">
 	<div>
 		<Navbar />

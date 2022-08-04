@@ -6,4 +6,4 @@
 	<title>Bookings • Khione 5</title>
 </svelte:head>
 
-<Calendar />
+<Calendar minNightsStay={2} />
